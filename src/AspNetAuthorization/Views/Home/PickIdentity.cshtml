@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "Identity Picker";
+}
+<div class="container" id="availableIdentities">
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Adam</h2>
+            <p>Identity in User role, with a date of birth of 01/01/2000, a name of Adam and no other claims.</p>
+        </div>
+        <div class="col-md-3">
+            <h2>Barry</h2>
+            <p>Identity in Administrator and User roles, with a date of birth of 08/06/1970 and a CanWeFixIt claim with a value of YesWeCan.</p>
+        </div>
+        <div class="col-md-3">
+            <h2>Charlie</h2>
+            <p>Identity in Administrator role, a date of birth of 01/01/1990 and a CanWeFixIt claim with a value of NoWeCant.</p>
+        </div>
+        <div class="col-md-3">
+            <h2>David</h2>
+            <p>Identity in Guest role, with no claims and a date of birth of 01/01/1990.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <p><a class="btn btn-default" href="#" data-user="adam" role="button">Switch &raquo;</a></p>
+        </div>
+        <div class="col-md-3">
+            <p><a class="btn btn-default" href="#" data-user="barry" role="button">Switch &raquo;</a></p>
+        </div>
+        <div class="col-md-3">
+            <p><a class="btn btn-default" href="#" data-user="charlie" role="button">Switch &raquo;</a></p>
+        </div>
+        <div class="col-md-3">
+            <p><a class="btn btn-default" href="#" data-user="david" role="button">Switch &raquo;</a></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Anonymous</h2>
+            <p>Clear any identity cookies.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <p><a class="btn btn-default" href="#" data-user="" role="button">Log off &raquo;</a></p>
+        </div>
+    </div>
+
+
+    @using (Html.BeginForm("PickIdentity", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "identitySelector" }))
+    {
+        @Html.AntiForgeryToken();
+        @Html.Hidden("selectedIdentity");
+    }
+</div>
+@section Scripts {
+<script>
+    $(document).ready(function () {
+        $('#availableIdentities').on('click', 'a', function(e) {
+            e.preventDefault();
+            $('#selectedIdentity').val($(this).data('user'));
+            $("#identitySelector").submit();
+        });
+    });
+</script>
+}

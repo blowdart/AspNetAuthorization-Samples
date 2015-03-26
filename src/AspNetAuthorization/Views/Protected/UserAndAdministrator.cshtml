@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Administrator Role Only";
+}
+<div class="jumbotron">
+    <div class="container">
+        <h1>User or Administrator Role Only</h1>
+        <p>[Authorize(Roles = "Administator")]</p>
+        <p>[Authorize(Roles = "User")]</p>
+        <p>Any authorized user in the Administrator role and the User Role can access this resource.</p>
+    </div>
+</div>

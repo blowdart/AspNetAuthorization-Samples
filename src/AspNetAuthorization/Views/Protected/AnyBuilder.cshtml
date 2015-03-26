@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Authorization Required";
+}
+<div class="jumbotron">
+    <div class="container">
+        <h1>Authorization Required</h1>
+        <p>[Authorize(Policy = "RequireBobTheBuilder")]</p>
+        <p>options.AddPolicy("RequireBobTheBuilder", policy => policy.RequireClaim("CanWeDoIt"));</p>
+        <p>Any user with a CanWeDoIt claim, with any value can access this resource.</p>
+    </div>
+</div>

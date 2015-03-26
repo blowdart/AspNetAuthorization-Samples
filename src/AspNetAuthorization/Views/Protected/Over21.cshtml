@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Administrator Role Only";
+}
+<div class="jumbotron">
+    <div class="container">
+        <h1>Over21</h1>
+        <p>[Authorize(Policy = "Over21")]</p>
+        <p>Custom code based policy.</p>
+        <p>Any user whose DOB indicates they are over 21, where 21 is a parameter to a general age requirement.</p>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "ASP.NET V6.0";
+}
+<div class="jumbotron">
+    <div class="container">
+        <h1>ASP.NET 6.0 Authorization Samples</h1>
+        <p>This is a sample application illustrating how to write authorization rules in ASP.NET 6.0.</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Would you like to learn more?</a></p>
+    </div>
+</div>
+<div class="container">
+    <h2>Sample Resources</h2>
+    <div class="list-group">
+        <a href="@Url.Action("Anyone", "Protected")">
+            <h4 class="list-group-item-heading">Anyone</h4>
+            <p class="list-group-item-text">Accessible to anyone, including unauthenticated users.</p>
+        </a>
+        <a href="@Url.Action("AnyAuthorized", "Protected")">
+            <h4 class="list-group-item-heading">Any Authorized</h4>
+            <p class="list-group-item-text">Accessible to any authenticated user.</p>
+        </a>
+        <a href="@Url.Action("AdministratorsOnly", "Protected")">
+            <h4 class="list-group-item-heading">Role based Administrators</h4>
+            <p class="list-group-item-text">Accessible to anyone in the Administrator role.</p>
+        </a>
+        <a href="@Url.Action("UserOrAdministrator", "Protected")">
+            <h4 class="list-group-item-heading">Role based Administrators or Users</h4>
+            <p class="list-group-item-text">Accessible to anyone in the Administrator or User role.</p>
+        </a>
+        <a href="@Url.Action("UserAndAdministrator", "Protected")">
+            <h4 class="list-group-item-heading">Role based Administrators And Users</h4>
+            <p class="list-group-item-text">Accessible to anyone in the Administrator and the User role.</p>
+        </a>
+        <a href="@Url.Action("AnyBuilder", "Protected")">
+            <h4 class="list-group-item-heading">Named policy validator looking for CanWeDoIt claim.</h4>
+            <p class="list-group-item-text">Accessible to anyone with a CanWeDoIt claim.</p>
+        </a>
+        <a href="@Url.Action("Over18", "Protected")">
+            <h4 class="list-group-item-heading">Code policy checking the DOB claim to verify a user is over 18.</h4>
+            <p class="list-group-item-text">Accessible to anyone with a DOB claim over 18 years ago.</p>
+        </a>
+        <a href="@Url.Action("Over21", "Protected")">
+            <h4 class="list-group-item-heading">Code policy checking the DOB claim to verify a user is over 21.</h4>
+            <p class="list-group-item-text">Accessible to anyone with a DOB claim over 21 years ago.</p>
+        </a>
+        <a href="@Url.Action("TacoTuesday", "Protected")">
+            <h4 class="list-group-item-heading">Code policy checking it's Tuesday.</h4>
+            <p class="list-group-item-text">Accessible to anyone authenticated user if it's Tuesday.</p>
+        </a>
+        <a href="@Url.Action("TequillaTacoTuesday", "Protected")">
+            <h4 class="list-group-item-heading">Code policy with multiple requirements, checking it's Tuesday and the user is over 21.</h4>
+            <p class="list-group-item-text">Accessible to anyone authenticated user if it's Tuesday and they're of drinking age.</p>
+        </a>
+    </div>
+</div>
