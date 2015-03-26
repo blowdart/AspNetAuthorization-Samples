@@ -38,7 +38,7 @@ namespace AspNetAuthorization
 
                 options.AddPolicy("TequillaTacoTuesday", policy =>
                     {
-                        policy.Requirements.Add(new AuthorizationPolicies.DayRequirement(DayOfWeek.Wednesday));
+                        policy.Requirements.Add(new AuthorizationPolicies.DayRequirement(DayOfWeek.Thursday));
                         policy.Requirements.Add(new AuthorizationPolicies.MinimumAgeRequirement(21));
                     });
             });
@@ -71,6 +71,7 @@ namespace AspNetAuthorization
             {
                 options.AuthenticationScheme = "Cookie";
                 options.LoginPath = new PathString("/Home/PickIdentity");
+                options.AutomaticAuthentication = true;
             });
 
             // Add MVC to the request pipeline.

@@ -4,7 +4,7 @@ using Microsoft.AspNet.Authorization;
 
 namespace AspNetAuthorization.AuthorizationPolicies
 {
-    public class MinimumAgeRequirement : AuthorizationHandler<Over18Requirement>, IAuthorizationRequirement
+    public class MinimumAgeRequirement : AuthorizationHandler<MinimumAgeRequirement>, IAuthorizationRequirement
     {
         public MinimumAgeRequirement(int age)
         {
@@ -13,7 +13,7 @@ namespace AspNetAuthorization.AuthorizationPolicies
 
         protected int MinimumAge { get; set; }
 
-        public override void Handle(AuthorizationContext context, Over18Requirement requirement)
+        public override void Handle(AuthorizationContext context, MinimumAgeRequirement requirement)
         {
             if (!context.User.HasClaim(c => c.Type == ClaimTypes.DateOfBirth))
             {
