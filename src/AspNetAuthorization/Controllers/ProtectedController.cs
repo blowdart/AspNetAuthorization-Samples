@@ -5,6 +5,13 @@ namespace AspNetAuthorization.Controllers
 {
     public class ProtectedController : Controller
     {
+        IAuthorizationService authorizationService;
+
+        public ProtectedController(IAuthorizationService authorizationService)
+        {
+            this.authorizationService = authorizationService;
+        }
+
         public IActionResult Anyone()
         {
             return View();

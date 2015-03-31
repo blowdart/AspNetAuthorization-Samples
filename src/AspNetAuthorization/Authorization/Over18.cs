@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using Microsoft.AspNet.Authorization;
 
-namespace AspNetAuthorization.AuthorizationPolicies
+namespace AspNetAuthorization.Authorization
 {
     public class Over18Requirement : AuthorizationHandler<Over18Requirement>, IAuthorizationRequirement
     {

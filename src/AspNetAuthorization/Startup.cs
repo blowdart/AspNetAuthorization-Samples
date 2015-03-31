@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Hosting;
@@ -30,18 +31,22 @@ namespace AspNetAuthorization
             {
                 options.AddPolicy("RequireBobTheBuilder", policy => policy.RequireClaim("CanWeFixIt"));
 
-                options.AddPolicy("Over18", policy => policy.Requirements.Add(new AuthorizationPolicies.Over18Requirement()));
+                options.AddPolicy("Over18", policy => policy.Requirements.Add(new Authorization.Over18Requirement()));
 
-                options.AddPolicy("Over21", policy => policy.Requirements.Add(new AuthorizationPolicies.MinimumAgeRequirement(21)));
+                options.AddPolicy("Over21", policy => policy.Requirements.Add(new Authorization.MinimumAgeRequirement(21)));
 
-                options.AddPolicy("TacoTuesday", policy => policy.Requirements.Add(new AuthorizationPolicies.DayRequirement(DayOfWeek.Tuesday)));
+                options.AddPolicy("TacoTuesday", policy => policy.Requirements.Add(new Authorization.DayRequirement(DayOfWeek.Tuesday)));
 
                 options.AddPolicy("TequillaTacoTuesday", policy =>
                     {
-                        policy.Requirements.Add(new AuthorizationPolicies.DayRequirement(DayOfWeek.Thursday));
-                        policy.Requirements.Add(new AuthorizationPolicies.MinimumAgeRequirement(21));
+                        policy.Requirements.Add(new Authorization.DayRequirement(DayOfWeek.Thursday));
+                        policy.Requirements.Add(new Authorization.MinimumAgeRequirement(21));
                     });
+
+                options.AddPolicy("Documents", policy => policy.RequireClaim("Documents"));
             });
+
+            services.AddInstance<IAuthorizationHandler>(new Authorization.DocumentAuthorizationHandler());
 
         }
 

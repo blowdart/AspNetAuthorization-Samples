@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNet.Authorization;
 
-namespace AspNetAuthorization.AuthorizationPolicies
+namespace AspNetAuthorization.Authorization
 {
     public class DayRequirement : AuthorizationHandler<DayRequirement>, IAuthorizationRequirement
     {

@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNet.Authorization;
+
+@using AspNetAuthorization.Authorization;
+@using AspNetAuthorization.Models;
+@{
+    ViewBag.Title = "ASP.NET V6.0";
+
+    var authorizationService = (IAuthorizationService) Context.RequestServices.GetService(typeof(IAuthorizationService));
+
+    var canCreate = authorizationService.Authorize(User, new Document(), Operations.Create);
+}
+<div class="jumbotron">
+    <div class="container">
+        <h1>Resource Based Authorization Samples</h1>
+        <p>This is a sample application illustrating how to write authorization rules in ASP.NET 6.0.</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Would you like to learn more?</a></p>
+    </div>
+</div>
+<div class="container">
+    <h2>Sample Resources</h2>
+    <div class="list-group">
+        <a href="@Url.Action("Create", "Document")">
+            <h4 class="list-group-item-heading">Create</h4>
+            <p class="list-group-item-text">Accessible to users with create permissions.</p>
+        </a>
+    </div>
+</div>
