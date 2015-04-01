@@ -2,15 +2,15 @@
     "webroot": "wwwroot",
     "version": "1.0.0-*",
     "dependencies": {
-        "Microsoft.AspNet.Authentication.Cookies": "1.0.0-beta4-11850",
-        "Microsoft.AspNet.Authorization": "1.0.0-beta4-11850",
-        "Microsoft.AspNet.Diagnostics": "1.0.0-beta4-12427",
-        "Microsoft.AspNet.Mvc": "6.0.0-beta4-13049",
-        "Microsoft.AspNet.Server.IIS": "1.0.0-beta4-11260",
-        "Microsoft.AspNet.Server.WebListener": "1.0.0-beta4-11680",
-        "Microsoft.AspNet.StaticFiles": "1.0.0-beta4-11485",
+        "Microsoft.AspNet.Authentication.Cookies": "1.0.0-beta4-11953",
+        "Microsoft.AspNet.Authorization": "1.0.0-beta4-11953",
+        "Microsoft.AspNet.Diagnostics": "1.0.0-beta4-12531",
+        "Microsoft.AspNet.Mvc": "6.0.0-beta4-13192",
+        "Microsoft.AspNet.Server.IIS": "1.0.0-beta4-11411",
+        "Microsoft.AspNet.Server.WebListener": "1.0.0-beta4-11757",
+        "Microsoft.AspNet.StaticFiles": "1.0.0-beta4-11563",
         "Microsoft.Framework.Logging": "1.0.0-beta4-10986",
-        "Microsoft.Framework.Logging.Console": "1.0.0-beta4-10986"
+        "Microsoft.Framework.Logging.Console": "1.0.0-beta4-11044"
     },
     "commands": {
         /* Change the port number when you are self hosting this application */

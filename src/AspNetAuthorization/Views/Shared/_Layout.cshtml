@@ -30,6 +30,33 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div id="currentIdentity">
+                <h3>Current User Details</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Value</th>
+                                <th>Issuer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var c in User.Claims)
+                            {
+                                <tr>
+                                    <td>@c.Type</td>
+                                    <td>@c.Value</td>
+                                    <td>@c.Issuer</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
         <footer>
             <p>&copy; @DateTime.Now.Year Microsoft Corporation</p>
         </footer>
