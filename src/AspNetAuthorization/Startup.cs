@@ -8,6 +8,9 @@ using Microsoft.Framework.ConfigurationModel;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
 
+
+using AspNetAuthorization.Middleware;
+
 namespace AspNetAuthorization
 {
     public class Startup
@@ -44,6 +47,12 @@ namespace AspNetAuthorization
                     });
 
                 options.AddPolicy("Documents", policy => policy.RequireClaim("Documents"));
+
+                options.AddPolicy("WebApi", policy =>
+                  {
+                      policy.ActiveAuthenticationSchemes.Add("Bearer");
+                      policy.RequireAuthenticatedUser();
+                  });
             });
 
             services.AddInstance<IAuthorizationHandler>(new Authorization.DocumentAuthorizationHandler());
@@ -78,6 +87,8 @@ namespace AspNetAuthorization
                 options.LoginPath = new PathString("/Home/PickIdentity");
                 options.AutomaticAuthentication = true;
             });
+
+            app.UseSimpleBearerAuthentication();
 
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>

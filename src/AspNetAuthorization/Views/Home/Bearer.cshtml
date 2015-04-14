@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Bearer";
+}
+
+<h3>Bearer Identity Picker</h3>
+<div id="AvailableIdentities"></div>
+
+<p>
+    <button id="WhoAmI" value="Who Am I">Who Am I?</button>
+    &nbsp;
+    <button id="WhoAmIBearer" value="Who Am I Bearer">Who Am I Bearer?</button>
+</p>
+
+@section Scripts {
+    <script>
+
+        function GetBearerHeader() {
+            var selectedIdentity = $('input:radio[name=identityPicker]:checked').val();
+            if (selectedIdentity === '') {
+                return null;
+            }
+            else {
+                return 'Bearer ' + $('input:radio[name=identityPicker]:checked').val();
+            }
+        }
+
+        function GetWhoAmI() {
+
+            if (GetBearerHeader()) {
+                $.ajax({
+                    url: '/api/WhoAmI',
+                    type: 'GET',
+                    dataType: 'json',
+                    headers: {
+                        'Authorization': GetBearerHeader()
+                    },
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function (x, y, z) {
+                        alert(x + '\n' + y + '\n' + z);
+                    }
+                })
+            }
+            else {
+                $.ajax({
+                    url: '/api/WhoAmI',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function (x, y, z) {
+                        alert(x + '\n' + y + '\n' + z);
+                    }
+                })
+            }
+        }
+
+
+        function GetWhoAmIBearer() {
+            $.ajax({
+                url: '/api/WhoIsBearer',
+                type: 'GET',
+                dataType: 'json',
+                headers: {
+                    'Authorization': GetBearerHeader()
+                },
+                statusCode: {
+                    401: function () { alert("401"); },
+                    403: function () { alert("403"); },
+                    404: function () { alert("404"); },
+                },
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (x, y, z) {
+                    alert(x + '\n' + y + '\n' + z);
+                }
+            })
+        }
+
+        $(document).ready(function () {
+
+            $.getJSON("/api/identities/", function (data) {
+                var items = [];                
+                items.push("<input type='radio' name='identityPicker' value=''>&nbsp;none</input>&nbsp;");
+                $.each(data, function (index) {
+                    items.push("<input type='radio' name='identityPicker' value='" + this + "'>&nbsp;" + this + "</input>" + "&nbsp;");
+                });
+                $(items.join("")).appendTo("#AvailableIdentities");
+                $("input:radio[name=identityPicker]:enabled:first").prop('checked', true);
+            });
+
+            $('#WhoAmI').click( function (e) {
+                e.preventDefault();
+                GetWhoAmI();
+            });
+            $('#WhoAmIBearer').click(function (e) {
+                alert('Trying');
+                e.preventDefault();
+                GetWhoAmIBearer();
+            });
+        });
+    </script>
+}

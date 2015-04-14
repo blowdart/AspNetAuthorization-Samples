@@ -23,6 +23,11 @@ namespace AspNetAuthorization.Controllers
             return View();
         }
 
+        public IActionResult Bearer()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult PickIdentity(string selectedIdentity = null, string returnUrl = null)
