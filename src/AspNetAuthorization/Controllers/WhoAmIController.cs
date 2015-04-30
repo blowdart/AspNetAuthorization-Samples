@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 
 namespace AspNetAuthorization.Controllers
 {
+    [Authorize("CookieBearer")]
     [ResponseCache(NoStore = true, Duration = 0, VaryByHeader = "Authorization")]
     [Route("api/[controller]")]
     public class WhoAmIController : Controller

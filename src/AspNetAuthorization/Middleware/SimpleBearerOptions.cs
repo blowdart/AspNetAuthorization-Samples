@@ -10,7 +10,7 @@ namespace AspNetAuthorization.Middleware
         public SimpleBearerOptions()
         {
             AuthenticationScheme = "Bearer";
-            AutomaticAuthentication = true;
+            AutomaticAuthentication = false;
         }
 
         public IDictionary<string, ClaimsPrincipal> IdentityMap { get; set; }

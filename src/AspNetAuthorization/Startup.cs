@@ -53,6 +53,14 @@ namespace AspNetAuthorization
                       policy.ActiveAuthenticationSchemes.Add("Bearer");
                       policy.RequireAuthenticatedUser();
                   });
+
+                options.AddPolicy("CookieBearer", policy =>
+                {
+                    policy.ActiveAuthenticationSchemes.Add("Bearer");
+                    policy.ActiveAuthenticationSchemes.Add("Cookie");
+                    policy.RequireAuthenticatedUser();
+                });
+
             });
 
             services.AddInstance<IAuthorizationHandler>(new Authorization.DocumentAuthorizationHandler());
