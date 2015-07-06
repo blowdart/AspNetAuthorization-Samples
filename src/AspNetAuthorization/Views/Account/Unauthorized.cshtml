@@ -1,6 +1,9 @@
-﻿@{
-    ViewBag.Title = "Identity Picker";
-}
+﻿<div class="jumbotron">
+    <div class="container">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+</div>
+
 <div class="container" id="availableIdentities">
     <div class="row">
         <div class="col-md-3">
@@ -46,15 +49,13 @@
         </div>
     </div>
 
-
-    @using (Html.BeginForm("PickIdentity", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "identitySelector" }))
-    {
-        @Html.AntiForgeryToken();
-        @Html.Hidden("selectedIdentity");
-    }
+    <form asp-controller="Account" asp-action="Unauthorized" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" id="identitySelector">
+        @Html.Hidden("selectedIdentity")
+    </form>
 </div>
+
 @section Scripts {
-<script>
+    <script>
     $(document).ready(function () {
         $('#availableIdentities').on('click', 'a', function(e) {
             e.preventDefault();
@@ -62,5 +63,5 @@
             $("#identitySelector").submit();
         });
     });
-</script>
+    </script>
 }

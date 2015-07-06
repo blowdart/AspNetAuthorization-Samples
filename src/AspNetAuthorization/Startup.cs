@@ -4,10 +4,10 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
-using Microsoft.Framework.ConfigurationModel;
+using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
-
+using Microsoft.Framework.Runtime;
 
 using AspNetAuthorization.Middleware;
 
@@ -15,11 +15,14 @@ namespace AspNetAuthorization
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
-            // Setup configuration sources.
-            Configuration = new Configuration()
-                .AddEnvironmentVariables();
+            var builder = new ConfigurationBuilder(appEnv.ApplicationBasePath)
+                .AddJsonFile("config.json")
+                .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true);
+
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; set; }
@@ -27,8 +30,6 @@ namespace AspNetAuthorization
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-            // services.AddAuthorization(); // not needed?
 
             services.ConfigureAuthorization(options =>
             {
@@ -67,11 +68,10 @@ namespace AspNetAuthorization
 
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerfactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            // Configure the HTTP request pipeline.
-            // Add the console logger.
-            loggerfactory.AddConsole();
+            loggerFactory.MinimumLevel = LogLevel.Information;
+            loggerFactory.AddConsole();
 
             // Add the following to the request pipeline only in development environment.
             if (string.Equals(env.EnvironmentName, "Development", StringComparison.OrdinalIgnoreCase))
@@ -92,7 +92,8 @@ namespace AspNetAuthorization
             app.UseCookieAuthentication(options =>
             {
                 options.AuthenticationScheme = "Cookie";
-                options.LoginPath = new PathString("/Home/PickIdentity");
+                options.LoginPath = new PathString("/Account/Unauthorized/");
+                options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                 options.AutomaticAuthentication = true;
             });
 

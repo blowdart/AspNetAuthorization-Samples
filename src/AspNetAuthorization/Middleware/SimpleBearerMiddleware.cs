@@ -3,6 +3,7 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Authentication;
 using Microsoft.Framework.OptionsModel;
 using Microsoft.Framework.Logging;
+using Microsoft.Framework.WebEncoders;
 
 namespace AspNetAuthorization.Middleware
 {
@@ -11,8 +12,11 @@ namespace AspNetAuthorization.Middleware
         public SimpleBearerMiddleware(
             RequestDelegate next,
             IOptions<SimpleBearerOptions> options,
-            ConfigureOptions<SimpleBearerOptions> configureOptions = null)
-            : base(next, options, configureOptions)
+            ILoggerFactory loggerFactory,
+            IUrlEncoder encoder,
+            ConfigureOptions<SimpleBearerOptions> configureOptions = null
+            )
+            : base(next, options, loggerFactory, encoder, configureOptions)
         {
         }
 
