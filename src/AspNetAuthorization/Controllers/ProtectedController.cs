@@ -44,6 +44,7 @@ namespace AspNetAuthorization.Controllers
             return View();
         }
 
+
         [Authorize(Policy = "RequireBobTheBuilder")]
         public IActionResult AnyBuilder()
         {

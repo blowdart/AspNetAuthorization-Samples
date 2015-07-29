@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Authentication;
-using Microsoft.AspNet.Http.Authentication;
-using Microsoft.Framework.Logging;
 
-namespace AspNetAuthorization.Middleware
+using Microsoft.AspNet.Authentication;
+using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Http.Authentication;
+using Microsoft.AspNet.Http.Features.Authentication;
+
+namespace MultipleAuthTypes.Middleware
 {
     // DON'T DO THIS. IT MAKES ME CRY.
     public class SimpleBearerHandler : AuthenticationHandler<SimpleBearerOptions>
@@ -14,22 +16,14 @@ namespace AspNetAuthorization.Middleware
         {
         }
 
-        protected override void ApplyResponseChallenge()
+        protected override async Task<bool> HandleUnauthorizedAsync(ChallengeContext context)
         {
-            if (Response.StatusCode != 401)
-            {
-                return;
-            }
-
+            Response.StatusCode = 401;
             Response.Headers["WWW-Authenticate"] = "Bearer";
+            return false;
         }
 
-        protected override void ApplyResponseGrant()
-        {
-            // No SignIn / Signout support.
-        }
-
-        protected override AuthenticationTicket AuthenticateCore()
+        protected override async Task<AuthenticationTicket> HandleAuthenticateAsync()
         {
             var header = Request.Headers["Authorization"];
             if (string.IsNullOrEmpty(header) || !header.StartsWith("Bearer "))

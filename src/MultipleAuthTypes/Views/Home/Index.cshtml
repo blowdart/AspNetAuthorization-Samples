@@ -1,0 +1,145 @@
+﻿@{
+    ViewBag.Title = "ASP.NET V5.0";
+}
+<div class="jumbotron">
+    <div class="container">
+        <h1>ASP.NET 5.0 Multiple Authentication Type Example</h1>
+        <p>This is a sample application illustrating how to write authorization rules in ASP.NET 6.0.</p>
+    </div>
+</div>
+
+<h3>Bearer Identity Picker</h3>
+<div id="AvailableIdentities"></div>
+
+<p>
+    <button id="WhoAmI" value="Who Am I">Who Am I? (Any)</button>
+    &nbsp;
+    <button id="WhoAmIBearer" value="Who Am I Bearer">Who Am I? (Bearer)</button>
+</p>
+
+@section Scripts {
+    <script>
+
+        function GetBearerHeader() {
+            var selectedIdentity = $('input:radio[name=identityPicker]:checked').val();
+            if (selectedIdentity === '') {
+                return null;
+            }
+            else {
+                return 'Bearer ' + $('input:radio[name=identityPicker]:checked').val();
+            }
+        }
+
+        function GetWhoAmI() {
+            if (GetBearerHeader()) {
+                $.ajax({
+                    url: '/api/WhoAmI',
+                    type: 'GET',
+                    dataType: 'json',
+                    headers: {
+                        'Authorization': GetBearerHeader()
+                    },
+                    success: function (data) {
+                        alert(data.Names.join());
+                    },
+                    error: function (x, y, z) {
+                        if (x.status != 401 && x.status != 403) {
+                            alert(x + '\n' + y + '\n' + z);
+                        }
+                    },
+                    statusCode: {
+                        401: function () { alert("401"); },
+                        403: function () { alert("403"); }
+                    }
+                })
+            }
+            else {
+                $.ajax({
+                    url: '/api/WhoAmI',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        alert(data.Names.join());
+                    },
+                    error: function (x, y, z) {
+                        //if (x.status != 401 && x.status != 403) {
+                            alert(x + '\n' + y + '\n' + z);
+                        //}
+                    }/*,
+                    statusCode: {
+                        401: function () { alert("401"); },
+                        403: function () { alert("403"); }
+                    }*/
+                })
+            }
+        }
+
+
+        function GetWhoAmIBearer() {
+            if (GetBearerHeader()) {
+                $.ajax({
+                    url: '/api/WhoAmIBearer',
+                    type: 'GET',
+                    dataType: 'json',
+                    headers: {
+                        'Authorization': GetBearerHeader()
+                    },
+                    success: function (data) {
+                        alert(data.Names.join());
+                    },
+                    error: function (x, y, z) {
+                        if (x.status != 401 && x.status != 403) {
+                            alert(x + '\n' + y + '\n' + z);
+                        }
+                    },
+                    statusCode: {
+                        401: function () { alert("401"); },
+                        403: function () { alert("403"); }
+                    }
+                })
+            }
+            else
+            {
+                $.ajax({
+                    url: '/api/WhoAmIBearer',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        alert(data.Names.join());
+                    },
+                    error: function (x, y, z) {
+                        if (x.status != 401 && x.status != 403) {
+                            alert(x + '\n' + y + '\n' + z);
+                        }
+                    },
+                    statusCode: {
+                        401: function () { alert("401"); },
+                        403: function () { alert("403"); }
+                    }
+                })
+            }
+        }
+
+        $(document).ready(function () {
+
+            $.getJSON("/api/identities/", function (data) {
+                var items = [];
+                items.push("<input type='radio' name='identityPicker' value=''>&nbsp;none</input>&nbsp;");
+                $.each(data, function (index) {
+                    items.push("<input type='radio' name='identityPicker' value='" + this + "'>&nbsp;" + this + "</input>" + "&nbsp;");
+                });
+                $(items.join("")).appendTo("#AvailableIdentities");
+                $("input:radio[name=identityPicker]:enabled:first").prop('checked', true);
+            });
+
+            $('#WhoAmI').click( function (e) {
+                e.preventDefault();
+                GetWhoAmI();
+            });
+            $('#WhoAmIBearer').click(function (e) {
+                e.preventDefault();
+                GetWhoAmIBearer();
+            });
+        });
+    </script>
+}

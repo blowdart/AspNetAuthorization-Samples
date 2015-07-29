@@ -17,7 +17,7 @@ namespace AspNetAuthorization.Authorization
 
         protected DayOfWeek DayOfWeek { get; set; }
 
-        public override void Handle(AuthorizationContext context, DayRequirement requirement)
+        protected override void Handle(AuthorizationContext context, DayRequirement requirement)
         {
             if (DateTime.Now.DayOfWeek == DayOfWeek)
             {

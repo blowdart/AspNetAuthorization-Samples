@@ -13,7 +13,7 @@ namespace AspNetAuthorization.Authorization
 
         protected int MinimumAge { get; set; }
 
-        public override void Handle(AuthorizationContext context, MinimumAgeRequirement requirement)
+        protected override void Handle(AuthorizationContext context, MinimumAgeRequirement requirement)
         {
             if (!context.User.HasClaim(c => c.Type == ClaimTypes.DateOfBirth))
             {

@@ -5,7 +5,7 @@ using Microsoft.Framework.OptionsModel;
 using Microsoft.Framework.Logging;
 using Microsoft.Framework.WebEncoders;
 
-namespace AspNetAuthorization.Middleware
+namespace MultipleAuthTypes.Middleware
 {
     public class SimpleBearerMiddleware : AuthenticationMiddleware<SimpleBearerOptions>
     {

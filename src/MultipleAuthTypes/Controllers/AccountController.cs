@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Routing;
 
-namespace AspNetAuthorization.Controllers
+namespace MultipleAuthTypes.Controllers
 {
     public class AccountController : Controller
     {

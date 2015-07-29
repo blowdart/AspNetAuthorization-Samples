@@ -1,7 +1,5 @@
 ﻿using System;
-using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.Framework.Configuration;
@@ -9,7 +7,9 @@ using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
 using Microsoft.Framework.Runtime;
 
-namespace AspNetAuthorization
+using MultipleAuthTypes.Middleware;
+
+namespace MultipleAuthTypes
 {
     public class Startup
     {
@@ -28,45 +28,6 @@ namespace AspNetAuthorization
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-            services.ConfigureAuthorization(options =>
-            {
-
-                options.AddPolicy("RolesAreOldSchoolDontDoThis", policy => policy.RequireRole("Administrator"));
-
-                options.AddPolicy("RequireBobTheBuilder", policy => policy.RequireClaim("CanWeFixIt"));
-
-                options.AddPolicy("Over18", policy => policy.Requirements.Add(new Authorization.Over18Requirement()));
-
-                options.AddPolicy("Over21", policy => policy.Requirements.Add(new Authorization.MinimumAgeRequirement(21)));
-
-                options.AddPolicy("TacoTuesday", policy => policy.Requirements.Add(new Authorization.DayRequirement(DayOfWeek.Tuesday)));
-
-                options.AddPolicy("TequillaTacoTuesday", policy =>
-                    {
-                        policy.Requirements.Add(new Authorization.DayRequirement(DayOfWeek.Thursday));
-                        policy.Requirements.Add(new Authorization.MinimumAgeRequirement(21));
-                    });
-
-                options.AddPolicy("Documents", policy => policy.RequireClaim("Documents"));
-
-                options.AddPolicy("WebApi", policy =>
-                  {
-                      policy.ActiveAuthenticationSchemes.Add("Bearer");
-                      policy.RequireAuthenticatedUser();
-                  });
-
-                options.AddPolicy("CookieBearer", policy =>
-                {
-                    policy.ActiveAuthenticationSchemes.Add("Bearer");
-                    policy.ActiveAuthenticationSchemes.Add("Cookie");
-                    policy.RequireAuthenticatedUser();
-                });
-
-            });
-
-            services.AddInstance<IAuthorizationHandler>(new Authorization.DocumentAuthorizationHandler());
-
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -95,7 +56,13 @@ namespace AspNetAuthorization
                 options.AuthenticationScheme = "Cookie";
                 options.LoginPath = new PathString("/Account/Unauthorized/");
                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
-                options.AutomaticAuthentication = true;
+                options.AutomaticAuthentication = false;
+            });
+
+            app.UseSimpleBearerAuthentication(options =>
+            {
+                options.AuthenticationScheme = "Bearer";
+                options.AutomaticAuthentication = false;
             });
 
             // Add MVC to the request pipeline.
@@ -105,7 +72,6 @@ namespace AspNetAuthorization
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
         }
     }
 }

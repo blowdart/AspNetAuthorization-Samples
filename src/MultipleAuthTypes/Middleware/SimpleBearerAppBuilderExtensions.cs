@@ -3,7 +3,7 @@ using Microsoft.AspNet.Builder;
 using Microsoft.Framework.Internal;
 using Microsoft.Framework.OptionsModel;
 
-namespace AspNetAuthorization.Middleware
+namespace MultipleAuthTypes.Middleware
 {
     public static class SimpleBearerAppBuilderExtensions
     {

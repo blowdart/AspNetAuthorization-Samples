@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.AspNet.Authentication;
 
-namespace AspNetAuthorization.Middleware
+namespace MultipleAuthTypes.Middleware
 {
     public class SimpleBearerOptions : AuthenticationOptions
     {

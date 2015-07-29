@@ -12,7 +12,7 @@ namespace AspNetAuthorization.Authorization
 {
     public class DocumentAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, Document>
     {
-        public override void Handle(AuthorizationContext context, OperationAuthorizationRequirement requirement, Document resource)
+        protected override void Handle(AuthorizationContext context, OperationAuthorizationRequirement requirement, Document resource)
         {
             var isSuperUser = context.User.FindFirst(c => c.Type == "Superuser" && c.Issuer == "urn:idunno.org" && c.Value == "True");
             if (isSuperUser != null)

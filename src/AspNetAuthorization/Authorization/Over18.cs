@@ -6,7 +6,7 @@ namespace AspNetAuthorization.Authorization
 {
     public class Over18Requirement : AuthorizationHandler<Over18Requirement>, IAuthorizationRequirement
     {
-        public override void Handle(AuthorizationContext context, Over18Requirement requirement)
+        protected override void Handle(AuthorizationContext context, Over18Requirement requirement)
         {
             if (!context.User.HasClaim(c => c.Type == ClaimTypes.DateOfBirth))
             {
