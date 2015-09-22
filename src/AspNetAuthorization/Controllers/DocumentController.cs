@@ -22,7 +22,7 @@ namespace AspNetAuthorization.Controllers
 
         public IActionResult Create()
         {
-            if (authorizationService.Authorize(User, new Document(), Operations.Create))
+            if (authorizationService.AuthorizeAsync(User, new Document(), Operations.Create).Result)
             {
                 return View();
             }

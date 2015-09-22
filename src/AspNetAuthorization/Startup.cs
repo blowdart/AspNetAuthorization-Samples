@@ -1,13 +1,12 @@
 ﻿using System;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
+using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
-using Microsoft.Framework.Runtime;
 
 namespace AspNetAuthorization
 {
