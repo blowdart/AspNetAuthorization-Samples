@@ -1,4 +1,5 @@
-﻿using AspNetAuthorization.Authorization;
+﻿using System.Threading.Tasks;
+using AspNetAuthorization.Authorization;
 using AspNetAuthorization.Models;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
@@ -20,9 +21,9 @@ namespace AspNetAuthorization.Controllers
             return View();
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            if (authorizationService.AuthorizeAsync(User, new Document(), Operations.Create).Result)
+            if (await authorizationService.AuthorizeAsync(User, new Document(), Operations.Create))
             {
                 return View();
             }
@@ -31,6 +32,5 @@ namespace AspNetAuthorization.Controllers
                 return new HttpStatusCodeResult(403);
             }
         }
-
     }
 }
