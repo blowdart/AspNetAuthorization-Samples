@@ -4,6 +4,7 @@ using Microsoft.AspNet.Authentication;
 using Microsoft.Framework.OptionsModel;
 using Microsoft.Framework.Logging;
 using Microsoft.Framework.WebEncoders;
+using Microsoft.AspNet.DataProtection;
 
 namespace MultipleAuthTypes.Middleware
 {
@@ -11,13 +12,11 @@ namespace MultipleAuthTypes.Middleware
     {
         public SimpleBearerMiddleware(
             RequestDelegate next,
-            IOptions<SimpleBearerOptions> options,
             ILoggerFactory loggerFactory,
             IUrlEncoder encoder,
-            ConfigureOptions<SimpleBearerOptions> configureOptions = null
-            )
-            : base(next, options, loggerFactory, encoder, configureOptions)
-        {
+            SimpleBearerOptions options)
+            : base(next, options, loggerFactory, encoder)
+        { 
         }
 
         protected override AuthenticationHandler<SimpleBearerOptions> CreateHandler()

@@ -29,7 +29,7 @@ namespace AspNetAuthorization.Controllers
             }
             else
             {
-                return new HttpStatusCodeResult(403);
+                return new ChallengeResult();
             }
         }
     }

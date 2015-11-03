@@ -1,12 +1,15 @@
 ﻿using System;
-using Microsoft.AspNet.Authorization;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
-using Microsoft.Dnx.Runtime;
-using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
+using Microsoft.Framework.Configuration;
+using Microsoft.AspNet.Hosting;
+using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.Logging;
+using Microsoft.AspNet.Authorization;
 
 namespace AspNetAuthorization
 {
@@ -14,9 +17,10 @@ namespace AspNetAuthorization
     {
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
-            var builder = new ConfigurationBuilder(appEnv.ApplicationBasePath)
-                .AddJsonFile("config.json")
-                .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true);
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(appEnv.ApplicationBasePath)
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -28,7 +32,7 @@ namespace AspNetAuthorization
         {
             services.AddMvc();
 
-            services.ConfigureAuthorization(options =>
+            services.AddAuthorization(options =>
             {
 
                 options.AddPolicy("RolesAreOldSchoolDontDoThis", policy => policy.RequireRole("Administrator"));
@@ -42,18 +46,18 @@ namespace AspNetAuthorization
                 options.AddPolicy("TacoTuesday", policy => policy.Requirements.Add(new Authorization.DayRequirement(DayOfWeek.Tuesday)));
 
                 options.AddPolicy("TequillaTacoTuesday", policy =>
-                    {
-                        policy.Requirements.Add(new Authorization.DayRequirement(DayOfWeek.Thursday));
-                        policy.Requirements.Add(new Authorization.MinimumAgeRequirement(21));
-                    });
+                {
+                    policy.Requirements.Add(new Authorization.DayRequirement(DayOfWeek.Thursday));
+                    policy.Requirements.Add(new Authorization.MinimumAgeRequirement(21));
+                });
 
                 options.AddPolicy("Documents", policy => policy.RequireClaim("Documents"));
 
                 options.AddPolicy("WebApi", policy =>
-                  {
-                      policy.ActiveAuthenticationSchemes.Add("Bearer");
-                      policy.RequireAuthenticatedUser();
-                  });
+                {
+                    policy.ActiveAuthenticationSchemes.Add("Bearer");
+                    policy.RequireAuthenticatedUser();
+                });
 
                 options.AddPolicy("CookieBearer", policy =>
                 {
@@ -65,7 +69,6 @@ namespace AspNetAuthorization
             });
 
             services.AddInstance<IAuthorizationHandler>(new Authorization.DocumentAuthorizationHandler());
-
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -76,14 +79,17 @@ namespace AspNetAuthorization
             // Add the following to the request pipeline only in development environment.
             if (string.Equals(env.EnvironmentName, "Development", StringComparison.OrdinalIgnoreCase))
             {
-                app.UseErrorPage();
+                app.UseDeveloperExceptionPage();
             }
             else
             {
                 // Add Error handling middleware which catches all application specific errors and
                 // send the request to the following path or controller action.
-                app.UseErrorHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error");
             }
+
+            // Add the platform handler to the request pipeline.
+            app.UseIISPlatformHandler();
 
             // Add static files to the request pipeline.
             app.UseStaticFiles();
@@ -104,7 +110,6 @@ namespace AspNetAuthorization
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
         }
     }
 }

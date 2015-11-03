@@ -11,9 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AspNetAuthorization", "src\AspNetAuthorization\AspNetAuthorization.xproj", "{708C1A48-4CA4-4728-9218-2C36826761FA}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AspNetAuthorization", "src\AspNetAuthorization\AspNetAuthorization.xproj", "{1A8CF5A1-4BC4-44EA-B9FB-7B1E0CFC02F2}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MultipleAuthTypes", "src\MultipleAuthTypes\MultipleAuthTypes.xproj", "{7AE490B1-611A-4439-8542-D3B5511FD8FB}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MultipleAuthTypes", "src\MultipleAuthTypes\MultipleAuthTypes.xproj", "{0221CC78-E389-40FA-9A8B-717C80B0C6DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,20 +21,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{708C1A48-4CA4-4728-9218-2C36826761FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{708C1A48-4CA4-4728-9218-2C36826761FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{708C1A48-4CA4-4728-9218-2C36826761FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{708C1A48-4CA4-4728-9218-2C36826761FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7AE490B1-611A-4439-8542-D3B5511FD8FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7AE490B1-611A-4439-8542-D3B5511FD8FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7AE490B1-611A-4439-8542-D3B5511FD8FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7AE490B1-611A-4439-8542-D3B5511FD8FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A8CF5A1-4BC4-44EA-B9FB-7B1E0CFC02F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A8CF5A1-4BC4-44EA-B9FB-7B1E0CFC02F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A8CF5A1-4BC4-44EA-B9FB-7B1E0CFC02F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A8CF5A1-4BC4-44EA-B9FB-7B1E0CFC02F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0221CC78-E389-40FA-9A8B-717C80B0C6DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0221CC78-E389-40FA-9A8B-717C80B0C6DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0221CC78-E389-40FA-9A8B-717C80B0C6DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0221CC78-E389-40FA-9A8B-717C80B0C6DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{708C1A48-4CA4-4728-9218-2C36826761FA} = {F67158DB-76B6-4915-9BEB-9DE8048D758C}
-		{7AE490B1-611A-4439-8542-D3B5511FD8FB} = {F67158DB-76B6-4915-9BEB-9DE8048D758C}
+		{1A8CF5A1-4BC4-44EA-B9FB-7B1E0CFC02F2} = {F67158DB-76B6-4915-9BEB-9DE8048D758C}
+		{0221CC78-E389-40FA-9A8B-717C80B0C6DC} = {F67158DB-76B6-4915-9BEB-9DE8048D758C}
 	EndGlobalSection
 EndGlobal

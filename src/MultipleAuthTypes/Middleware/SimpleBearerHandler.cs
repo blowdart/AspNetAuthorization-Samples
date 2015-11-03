@@ -25,7 +25,7 @@ namespace MultipleAuthTypes.Middleware
 
         protected override async Task<AuthenticationTicket> HandleAuthenticateAsync()
         {
-            var header = Request.Headers["Authorization"];
+            var header = Request.Headers["Authorization"].ToString();
             if (string.IsNullOrEmpty(header) || !header.StartsWith("Bearer "))
             {
                 return null;

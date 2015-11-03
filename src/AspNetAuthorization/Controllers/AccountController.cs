@@ -42,7 +42,7 @@ namespace AspNetAuthorization.Controllers
         {
             if (string.IsNullOrEmpty(selectedIdentity))
             {
-                await Context.Authentication.SignOutAsync("Cookie");
+                await HttpContext.Authentication.SignOutAsync("Cookie");
                 return RedirectToAction("Index");
             }
             else
@@ -81,7 +81,7 @@ namespace AspNetAuthorization.Controllers
                 var identity = new ClaimsIdentity(claims, "sampleAuth");
                 var principal = new ClaimsPrincipal(identity);
 
-                await Context.Authentication.SignInAsync("Cookie", principal);
+                await HttpContext.Authentication.SignInAsync("Cookie", principal);
             }
 
             return RedirectToLocal(returnUrl);
@@ -90,7 +90,7 @@ namespace AspNetAuthorization.Controllers
         [HttpPost]
         public async Task<IActionResult> LogOff()
         {
-            await Context.Authentication.SignOutAsync("Cookie");
+            await HttpContext.Authentication.SignOutAsync("Cookie");
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 

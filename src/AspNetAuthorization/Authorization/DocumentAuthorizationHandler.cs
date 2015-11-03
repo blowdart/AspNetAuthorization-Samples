@@ -5,8 +5,7 @@ using System.Linq;
 using Microsoft.AspNet.Authorization;
 
 using AspNetAuthorization.Models;
-using System.Security.Claims;
-using AspNetAuthorization.Authorization;
+
 
 namespace AspNetAuthorization.Authorization
 {

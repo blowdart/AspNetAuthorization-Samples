@@ -1,7 +1,5 @@
 ﻿using System;
 using Microsoft.AspNet.Builder;
-using Microsoft.Framework.Internal;
-using Microsoft.Framework.OptionsModel;
 
 namespace MultipleAuthTypes.Middleware
 {
@@ -10,12 +8,25 @@ namespace MultipleAuthTypes.Middleware
         public static IApplicationBuilder UseSimpleBearerAuthentication
             (
                 this IApplicationBuilder app,
-                Action<SimpleBearerOptions> configureOptions = null
+                SimpleBearerOptions options
             )
         {
-            return app.UseMiddleware<SimpleBearerMiddleware>(
-                new ConfigureOptions<SimpleBearerOptions>(configureOptions ?? (o => { }))
-                );
+            return app.UseMiddleware<SimpleBearerMiddleware>(options);
+        }
+
+        public static IApplicationBuilder UseSimpleBearerAuthentication(this IApplicationBuilder app, Action<SimpleBearerOptions> configureOptions)
+        {
+            if (app == null)
+            {
+                throw new ArgumentNullException(nameof(app));
+            }
+
+            var options = new SimpleBearerOptions();
+            if (configureOptions != null)
+            {
+                configureOptions(options);
+            }
+            return app.UseSimpleBearerAuthentication(options);
         }
     }
 }
