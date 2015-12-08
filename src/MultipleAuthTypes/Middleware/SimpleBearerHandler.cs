@@ -23,7 +23,7 @@ namespace MultipleAuthTypes.Middleware
             return false;
         }
 
-        protected override async Task<AuthenticationTicket> HandleAuthenticateAsync()
+        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             var header = Request.Headers["Authorization"].ToString();
             if (string.IsNullOrEmpty(header) || !header.StartsWith("Bearer "))
@@ -36,10 +36,11 @@ namespace MultipleAuthTypes.Middleware
 
             if (principal == null)
             {
-                return null;
+                return AuthenticateResult.Failed("No such user");
             }
 
-            return new AuthenticationTicket(new ClaimsPrincipal(principal), new AuthenticationProperties(), "Bearer");
+            var ticket = new AuthenticationTicket(principal, new AuthenticationProperties(), Options.AuthenticationScheme);
+            return AuthenticateResult.Success(ticket);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace MultipleAuthTypes.Middleware
         public SimpleBearerOptions()
         {
             AuthenticationScheme = "Bearer";
-            AutomaticAuthentication = false;
+            AutomaticAuthenticate = false;
         }
 
         public IDictionary<string, ClaimsPrincipal> IdentityMap { get; set; }

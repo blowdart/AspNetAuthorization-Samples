@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Authorization.Infrastructure;
 
 using AspNetAuthorization.Models;
 
-
 namespace AspNetAuthorization.Authorization
 {
-    public class DocumentAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, Document>
+    public class AdminAuthorizationHander : AuthorizationHandler<OperationAuthorizationRequirement, Document>
     {
         protected override void Handle(AuthorizationContext context, OperationAuthorizationRequirement requirement, Document resource)
         {
@@ -19,14 +19,26 @@ namespace AspNetAuthorization.Authorization
                 context.Succeed(requirement);
                 return;
             }
+        }
+    }
 
-            var documentPermissionClaim = context.User.FindFirst(c => c.Type == "Documents" && c.Issuer == "urn:idunno.org");
-
-            if (documentPermissionClaim == null)
+    public class IHateYouAuthorizationHander : AuthorizationHandler<OperationAuthorizationRequirement, Document>
+    {
+        protected override void Handle(AuthorizationContext context, OperationAuthorizationRequirement requirement, Document resource)
+        {
+            if (context.User.Identity.Name == "davidfowler")
             {
                 context.Fail();
                 return;
             }
+        }
+    }
+
+    public class DocumentAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, Document>
+    {
+        protected override void Handle(AuthorizationContext context, OperationAuthorizationRequirement requirement, Document resource)
+        {
+            var documentPermissionClaim = context.User.FindFirst(c => c.Type == "Documents" && c.Issuer == "urn:idunno.org");
 
             if (MapClaimsToOperations(documentPermissionClaim.Value).Contains(requirement))
             {

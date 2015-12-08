@@ -1,10 +1,8 @@
 ﻿using System;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Authentication;
-using Microsoft.Framework.OptionsModel;
-using Microsoft.Framework.Logging;
-using Microsoft.Framework.WebEncoders;
-using Microsoft.AspNet.DataProtection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.WebEncoders;
 
 namespace MultipleAuthTypes.Middleware
 {
@@ -13,7 +11,7 @@ namespace MultipleAuthTypes.Middleware
         public SimpleBearerMiddleware(
             RequestDelegate next,
             ILoggerFactory loggerFactory,
-            IUrlEncoder encoder,
+            UrlEncoder encoder,
             SimpleBearerOptions options)
             : base(next, options, loggerFactory, encoder)
         { 

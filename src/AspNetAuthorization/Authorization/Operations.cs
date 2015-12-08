@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNet.Authorization;
+﻿using Microsoft.AspNet.Authorization.Infrastructure;
 
 namespace AspNetAuthorization.Authorization
 {

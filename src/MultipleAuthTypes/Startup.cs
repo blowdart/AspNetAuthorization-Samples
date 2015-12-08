@@ -3,21 +3,18 @@
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
-using Microsoft.Dnx.Runtime;
-using Microsoft.Framework.Configuration;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Logging;
-
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MultipleAuthTypes.Middleware;
 
 namespace MultipleAuthTypes2
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
+        public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(appEnv.ApplicationBasePath)
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
@@ -58,13 +55,13 @@ namespace MultipleAuthTypes2
                 options.AuthenticationScheme = "Cookie";
                 options.LoginPath = new PathString("/Account/Unauthorized/");
                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
-                options.AutomaticAuthentication = false;
+                options.AutomaticAuthenticate = false;
             });
 
             app.UseSimpleBearerAuthentication(options =>
             {
                 options.AuthenticationScheme = "Bearer";
-                options.AutomaticAuthentication = false;
+                options.AutomaticAuthenticate = false;
             });
 
             // Add MVC to the request pipeline.
@@ -75,5 +72,7 @@ namespace MultipleAuthTypes2
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }

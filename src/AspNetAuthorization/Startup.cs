@@ -1,24 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Http;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Configuration;
 using Microsoft.AspNet.Hosting;
-using Microsoft.Dnx.Runtime;
-using Microsoft.Framework.Logging;
 using Microsoft.AspNet.Authorization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AspNetAuthorization
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
+        public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(appEnv.ApplicationBasePath)
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
@@ -55,17 +50,22 @@ namespace AspNetAuthorization
 
                 options.AddPolicy("WebApi", policy =>
                 {
-                    policy.ActiveAuthenticationSchemes.Add("Bearer");
+                    policy.AuthenticationSchemes.Add("Bearer");
                     policy.RequireAuthenticatedUser();
                 });
 
                 options.AddPolicy("CookieBearer", policy =>
                 {
-                    policy.ActiveAuthenticationSchemes.Add("Bearer");
-                    policy.ActiveAuthenticationSchemes.Add("Cookie");
+                    policy.AuthenticationSchemes.Add("Bearer");
+                    policy.AuthenticationSchemes.Add("Cookie");
                     policy.RequireAuthenticatedUser();
                 });
 
+
+                options.AddPolicy("MustHaveSoul", policy =>
+                { 
+                    policy.Requirements.Add(new Authorization.NoGingersRequirement());
+                });
             });
 
             services.AddInstance<IAuthorizationHandler>(new Authorization.DocumentAuthorizationHandler());
@@ -100,7 +100,7 @@ namespace AspNetAuthorization
                 options.AuthenticationScheme = "Cookie";
                 options.LoginPath = new PathString("/Account/Unauthorized/");
                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
-                options.AutomaticAuthentication = true;
+                options.AutomaticAuthenticate = true;
             });
 
             // Add MVC to the request pipeline.
@@ -111,5 +111,7 @@ namespace AspNetAuthorization
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }

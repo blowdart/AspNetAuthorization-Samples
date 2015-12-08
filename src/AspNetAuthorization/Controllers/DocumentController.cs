@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AspNetAuthorization.Authorization;
 using AspNetAuthorization.Models;
 using Microsoft.AspNet.Authorization;

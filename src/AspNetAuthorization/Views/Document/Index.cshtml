@@ -12,11 +12,8 @@
     </div>
 </div>
 <div class="container">
-    <h2>Document Library</h2>
-    
     @if (await AuthorizationService.AuthorizeAsync(User, new Document(), Operations.Create))
     {
         <p><a class="btn btn-default" role="button" href="@Url.Action("Create", "Document")">Create</a></p>        
     }    
-
 </div>
