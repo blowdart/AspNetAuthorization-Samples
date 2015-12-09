@@ -66,6 +66,8 @@ namespace AspNetAuthorization
                 { 
                     policy.Requirements.Add(new Authorization.NoGingersRequirement());
                 });
+
+                
             });
 
             services.AddInstance<IAuthorizationHandler>(new Authorization.DocumentAuthorizationHandler());
@@ -101,6 +103,7 @@ namespace AspNetAuthorization
                 options.LoginPath = new PathString("/Account/Unauthorized/");
                 options.AccessDeniedPath = new PathString("/Account/Forbidden/");
                 options.AutomaticAuthenticate = true;
+                options.AutomaticChallenge = true;
             });
 
             // Add MVC to the request pipeline.
