@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Http.Authentication;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Routing;
 
@@ -63,6 +64,7 @@ namespace AspNetAuthorization.Controllers
                         claims.Add(new Claim(ClaimTypes.Role, "User", ClaimValueTypes.String, Issuer));
                         claims.Add(new Claim("CanWeFixIt", "YesWeCan", ClaimValueTypes.String, "urn:bobthebuilder.com"));
                         claims.Add(new Claim("Documents", "CRUD", ClaimValueTypes.String, "urn:idunno.org"));
+                        claims.Add(new Claim("HairColour", "Brown", ClaimValueTypes.String, "urn:idunno.org"));
                         break;
                     case "charlie":
                         claims.Add(new Claim(ClaimTypes.DateOfBirth, new DateTime(1990, 01, 01).ToString("u"), ClaimValueTypes.DateTime, Issuer));
@@ -74,6 +76,13 @@ namespace AspNetAuthorization.Controllers
                         claims.Add(new Claim(ClaimTypes.DateOfBirth, new DateTime(1990, 01, 01).ToString("u"), ClaimValueTypes.DateTime, Issuer));
                         claims.Add(new Claim(ClaimTypes.Role, "Guest", ClaimValueTypes.String, Issuer));
                         break;
+                    case "gary":
+                        claims.Add(new Claim(ClaimTypes.Role, "Guest", ClaimValueTypes.String, Issuer));
+                        break;
+                    case "plip":
+                        claims.Add(new Claim(ClaimTypes.Role, "Guest", ClaimValueTypes.String, Issuer));
+                        claims.Add(new Claim("HairColour", "Ginger", ClaimValueTypes.String, "urn:idunno.org"));
+                        break;
                     default:
                         break;
                 }
@@ -81,7 +90,13 @@ namespace AspNetAuthorization.Controllers
                 var identity = new ClaimsIdentity(claims, "sampleAuth");
                 var principal = new ClaimsPrincipal(identity);
 
-                await HttpContext.Authentication.SignInAsync("Cookie", principal);
+                await HttpContext.Authentication.SignInAsync("Cookie", principal,
+                    new AuthenticationProperties
+                    {
+                        ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                        IsPersistent = false,
+                        AllowRefresh = false
+                    });
             }
 
             return RedirectToLocal(returnUrl);

@@ -1,39 +1,34 @@
-﻿
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Authorization;
 using Microsoft.Extensions.Logging;
 
 namespace AspNetAuthorization.Authorization
 {
-    public class NoGingersAuthorizationHandler : AuthorizationHandler<NoGingersRequirement>
+    public class BaldAuthorizationHandler : AuthorizationHandler<NoGingersRequirement>
     {
         ILogger _logger;
 
-        public NoGingersAuthorizationHandler(ILoggerFactory loggerFactory)
+        public BaldAuthorizationHandler(ILoggerFactory loggerFactory)
         {
-            if (loggerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(loggerFactory));
-            }
-
             _logger = loggerFactory.CreateLogger(this.GetType().FullName);
+
         }
 
         protected override void Handle(AuthorizationContext context, NoGingersRequirement requirement)
         {
-            _logger.LogInformation("Checking for soul free mutants.");
+            _logger.LogInformation("Checking for baldies.");
 
             var hairColour =
                 context.User.Claims.FirstOrDefault(c => c.Type == "HairColour" && c.Issuer == "urn:idunno.org");
 
-            if (hairColour == null ||
-                string.IsNullOrEmpty(hairColour.Value) || 
-                string.Compare(hairColour.Value, "ginger", true) != 0)
+            if (hairColour == null)
             {
                 context.Succeed(requirement);
                 return;
             }
         }
     }
-}
+}    

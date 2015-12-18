@@ -51,7 +51,10 @@
             <h4 class="list-group-item-heading">Code policy with multiple requirements, checking it's Tuesday and the user is over 21.</h4>
             <p class="list-group-item-text">Accessible to anyone authenticated user if it's Tuesday and they're of drinking age.</p>
         </a>
-
+        <a href="@Url.Action("NoGingers", "Protected")">
+            <h4 class="list-group-item-heading">Code policy with a single requirement, but multiple handlers.</h4>
+            <p class="list-group-item-text">Accessible to anyone authenticated user who is not ginger, or who is missing a hair claim (bald).</p>
+        </a>
         <a href="@Url.Action("Index", "Document")">
             <h4 class="list-group-item-heading">Resource Based Auth</h4>
             <p class="list-group-item-text">Accessible to anyone with Document permissions from the idunno.org issuer.</p>

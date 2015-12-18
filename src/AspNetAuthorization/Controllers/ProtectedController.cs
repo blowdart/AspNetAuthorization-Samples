@@ -75,6 +75,11 @@ namespace AspNetAuthorization.Controllers
             return View();
         }
 
+        [Authorize(Policy = "NoGingers")]
+        public IActionResult NoGingers()
+        {
+            return View();
+        }
     }
 }
 

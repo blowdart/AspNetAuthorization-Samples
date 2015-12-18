@@ -29,7 +29,6 @@ namespace AspNetAuthorization
 
             services.AddAuthorization(options =>
             {
-
                 options.AddPolicy("RolesAreOldSchoolDontDoThis", policy => policy.RequireRole("Administrator"));
 
                 options.AddPolicy("RequireBobTheBuilder", policy => policy.RequireClaim("CanWeFixIt"));
@@ -62,7 +61,7 @@ namespace AspNetAuthorization
                 });
 
 
-                options.AddPolicy("MustHaveSoul", policy =>
+                options.AddPolicy("NoGingers", policy =>
                 { 
                     policy.Requirements.Add(new Authorization.NoGingersRequirement());
                 });
@@ -70,7 +69,9 @@ namespace AspNetAuthorization
                 
             });
 
-            services.AddInstance<IAuthorizationHandler>(new Authorization.DocumentAuthorizationHandler());
+            services.AddSingleton<IAuthorizationHandler, Authorization.DocumentAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, Authorization.BaldAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, Authorization.NoGingersAuthorizationHandler>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
