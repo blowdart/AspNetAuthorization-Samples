@@ -27,9 +27,9 @@ namespace AspNetAuthorization.Authorization
             var hairColour =
                 context.User.Claims.FirstOrDefault(c => c.Type == "HairColour" && c.Issuer == "urn:idunno.org");
 
-            if (hairColour == null ||
-                string.IsNullOrEmpty(hairColour.Value) || 
-                string.Compare(hairColour.Value, "ginger", true) != 0)
+            if (hairColour != null &&
+                (string.IsNullOrEmpty(hairColour.Value) || 
+                 string.Compare(hairColour.Value, "ginger", true) != 0))
             {
                 context.Succeed(requirement);
                 return;
