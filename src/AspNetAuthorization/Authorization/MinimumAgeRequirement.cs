@@ -15,7 +15,7 @@ namespace AspNetAuthorization.Authorization
 
         protected override void Handle(AuthorizationContext context, MinimumAgeRequirement requirement)
         {
-            if (!context.User.HasClaim(c => c.Type == ClaimTypes.DateOfBirth && c.Issuer == "http://contoso.com"))
+            if (!context.User.HasClaim(c => c.Type == ClaimTypes.DateOfBirth))
             {
                 return;
             }
