@@ -10,7 +10,6 @@ namespace AspNetAuthorization.Authorization
         {
             if (!context.User.HasClaim(c => c.Type == ClaimTypes.DateOfBirth))
             {
-                context.Fail();
                 return;
             }
 
@@ -25,10 +24,6 @@ namespace AspNetAuthorization.Authorization
             if (age >= 18)
             {
                 context.Succeed(requirement);
-            }
-            else
-            {
-                context.Fail();
             }
         }
     }

@@ -24,7 +24,7 @@ namespace AspNetAuthorization.Authorization
             _logger.LogInformation("Checking for soul free mutants.");
 
             var hairColour =
-                context.User.Claims.FirstOrDefault(c => c.Type == "HairColour" && c.Issuer == "urn:idunno.org");
+                context.User.Claims.FirstOrDefault(c => c.Type == "HairColour" && c.Issuer == Issuers.Idunno);
 
             if (hairColour != null &&
                 (string.IsNullOrEmpty(hairColour.Value) || 

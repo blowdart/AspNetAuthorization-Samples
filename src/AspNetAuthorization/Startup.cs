@@ -67,12 +67,21 @@ namespace AspNetAuthorization
                     policy.Requirements.Add(new Authorization.NoGingersRequirement());
                 });
 
+                options.AddPolicy("CanEnterContosoBuilding", policy =>
+                {
+                    policy.Requirements.Add(new Authorization.EnterBuildingRequirement());
+                });
+
                 
             });
 
             services.AddSingleton<IAuthorizationHandler, Authorization.DocumentAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, Authorization.BaldAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, Authorization.NoGingersAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, Authorization.BuildingEntryAsEmployeeHandler>();
+            services.AddSingleton<IAuthorizationHandler, Authorization.BuildingEntryAsVisitor>();
+
+            services.AddSingleton<IEmployeeRepository, EmployeeRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

@@ -14,7 +14,7 @@ namespace AspNetAuthorization.Authorization
         
         protected override void Handle(AuthorizationContext context, OperationAuthorizationRequirement requirement, Document resource)
         {
-            var isSuperUser = context.User.FindFirst(c => c.Type == "Superuser" && c.Issuer == "urn:idunno.org" && c.Value == "True");
+            var isSuperUser = context.User.FindFirst(c => c.Type == "Superuser" && c.Issuer == Issuers.Idunno && c.Value == "True");
             if (isSuperUser != null)
             {
                 context.Succeed(requirement);

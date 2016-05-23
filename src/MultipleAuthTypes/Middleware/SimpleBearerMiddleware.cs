@@ -12,7 +12,7 @@ namespace MultipleAuthTypes.Middleware
         public SimpleBearerMiddleware(
             RequestDelegate next,
             ILoggerFactory loggerFactory,
-            UrlEncoder encoder,
+            IUrlEncoder encoder,
             SimpleBearerOptions options)
             : base(next, options, loggerFactory, encoder)
         { 

@@ -80,6 +80,12 @@ namespace AspNetAuthorization.Controllers
         {
             return View();
         }
+
+        [Authorize(Policy = "CanEnterContosoBuilding")]
+        public IActionResult BuildingEntry()
+        {
+            return View();
+        }
     }
 }
 
