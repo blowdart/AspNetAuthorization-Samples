@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Security.Claims;
-
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Authorization;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MultipleAuthTypes.Controllers
 {
-    [Authorize(ActiveAuthenticationSchemes = "Cookie,Bearer")]
+    [Authorize(ActiveAuthenticationSchemes = "Bearer")]
     public class HomeController : Controller
     {
-
         [AllowAnonymous]
         public IActionResult Index()
         {

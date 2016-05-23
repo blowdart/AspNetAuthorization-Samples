@@ -1,32 +1,26 @@
 ﻿using System;
-using Microsoft.AspNet.Builder;
+using MultipleAuthTypes.Middleware;
 
-namespace MultipleAuthTypes.Middleware
+namespace Microsoft.AspNetCore.Builder
 {
     public static class SimpleBearerAppBuilderExtensions
     {
-        public static IApplicationBuilder UseSimpleBearerAuthentication
-            (
-                this IApplicationBuilder app,
-                SimpleBearerOptions options
-            )
-        {
-            return app.UseMiddleware<SimpleBearerMiddleware>(options);
-        }
 
-        public static IApplicationBuilder UseSimpleBearerAuthentication(this IApplicationBuilder app, Action<SimpleBearerOptions> configureOptions)
+        public static IApplicationBuilder UseSimpleBearerAuthentication(
+            this IApplicationBuilder app, 
+            SimpleBearerOptions options)
         {
             if (app == null)
             {
                 throw new ArgumentNullException(nameof(app));
             }
 
-            var options = new SimpleBearerOptions();
-            if (configureOptions != null)
+            if (options == null)
             {
-                configureOptions(options);
+                throw new ArgumentNullException(nameof(options));
             }
-            return app.UseSimpleBearerAuthentication(options);
+
+            return app.UseMiddleware<SimpleBearerMiddleware>(options);
         }
     }
 }

@@ -1,7 +1,6 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
-using Microsoft.AspNet.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 
 namespace AspNetAuthorization.Authorization

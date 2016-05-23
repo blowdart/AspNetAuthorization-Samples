@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using Microsoft.AspNet.Authentication;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Options;
 
 namespace MultipleAuthTypes.Middleware
 {
-    public class SimpleBearerOptions : AuthenticationOptions
+    public class SimpleBearerOptions : AuthenticationOptions, IOptions<SimpleBearerOptions>
     {
         public SimpleBearerOptions()
         {
@@ -14,5 +16,13 @@ namespace MultipleAuthTypes.Middleware
         }
 
         public IDictionary<string, ClaimsPrincipal> IdentityMap { get; set; }
+
+        public SimpleBearerOptions Value
+        {
+            get
+            {
+                return this;
+            }
+        }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -14,10 +14,7 @@ namespace MultipleAuthTypes2
     {
         public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
+            var builder = new ConfigurationBuilder();
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -31,18 +28,15 @@ namespace MultipleAuthTypes2
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.MinimumLevel = LogLevel.Information;
-            loggerFactory.AddConsole();
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
-            // Add the following to the request pipeline only in development environment.
-            if (string.Equals(env.EnvironmentName, "Development", StringComparison.OrdinalIgnoreCase))
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                // Add Error handling middleware which catches all application specific errors and
-                // send the request to the following path or controller action.
                 app.UseExceptionHandler("/Home/Error");
             }
 
@@ -50,18 +44,18 @@ namespace MultipleAuthTypes2
             app.UseStaticFiles();
 
             // Add cookie authentication middleware.
-            app.UseCookieAuthentication(options =>
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                options.AuthenticationScheme = "Cookie";
-                options.LoginPath = new PathString("/Account/Unauthorized/");
-                options.AccessDeniedPath = new PathString("/Account/Forbidden/");
-                options.AutomaticAuthenticate = false;
+                AuthenticationScheme = "Cookie",
+                LoginPath = new PathString("/Account/Unauthorized/"),
+                AccessDeniedPath = new PathString("/Account/Forbidden/"),
+                AutomaticAuthenticate = false
             });
 
-            app.UseSimpleBearerAuthentication(options =>
+            app.UseSimpleBearerAuthentication(new SimpleBearerOptions
             {
-                options.AuthenticationScheme = "Bearer";
-                options.AutomaticAuthenticate = false;
+                AuthenticationScheme = "Bearer",
+                AutomaticAuthenticate = false
             });
 
             // Add MVC to the request pipeline.
@@ -73,6 +67,5 @@ namespace MultipleAuthTypes2
             });
         }
 
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }

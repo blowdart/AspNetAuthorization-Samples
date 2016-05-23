@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetAuthorization.Controllers.Controllers
 {

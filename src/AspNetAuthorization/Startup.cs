@@ -1,8 +1,8 @@
 ﻿using System;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +14,7 @@ namespace AspNetAuthorization
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
@@ -76,35 +77,29 @@ namespace AspNetAuthorization
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.MinimumLevel = LogLevel.Information;
-            loggerFactory.AddConsole();
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
-            // Add the following to the request pipeline only in development environment.
-            if (string.Equals(env.EnvironmentName, "Development", StringComparison.OrdinalIgnoreCase))
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                // Add Error handling middleware which catches all application specific errors and
-                // send the request to the following path or controller action.
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            // Add the platform handler to the request pipeline.
-            app.UseIISPlatformHandler();
 
             // Add static files to the request pipeline.
             app.UseStaticFiles();
 
             // Add cookie authentication middleware.
-            app.UseCookieAuthentication(options =>
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                options.AuthenticationScheme = "Cookie";
-                options.LoginPath = new PathString("/Account/Unauthorized/");
-                options.AccessDeniedPath = new PathString("/Account/Forbidden/");
-                options.AutomaticAuthenticate = true;
-                options.AutomaticChallenge = true;
+                AuthenticationScheme = "Cookie",
+                LoginPath = new PathString("/Account/Unauthorized/"),
+                AccessDeniedPath = new PathString("/Account/Forbidden/"),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
             });
 
             // Add MVC to the request pipeline.
@@ -115,7 +110,5 @@ namespace AspNetAuthorization
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }

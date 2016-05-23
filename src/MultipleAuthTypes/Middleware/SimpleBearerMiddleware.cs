@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Authentication;
+﻿using System.Text.Encodings.Web;
+
+using Microsoft.AspNetCore.Authentication;
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.WebEncoders;
 
 namespace MultipleAuthTypes.Middleware
 {

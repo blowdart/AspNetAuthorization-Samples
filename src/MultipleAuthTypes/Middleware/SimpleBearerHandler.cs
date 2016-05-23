@@ -1,11 +1,8 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-using Microsoft.AspNet.Authentication;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Http.Authentication;
-using Microsoft.AspNet.Http.Features.Authentication;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Http.Features.Authentication;
 
 namespace MultipleAuthTypes.Middleware
 {
@@ -16,19 +13,19 @@ namespace MultipleAuthTypes.Middleware
         {
         }
 
-        protected override async Task<bool> HandleUnauthorizedAsync(ChallengeContext context)
+        protected override Task<bool> HandleUnauthorizedAsync(ChallengeContext context)
         {
             Response.StatusCode = 401;
             Response.Headers["WWW-Authenticate"] = "Bearer";
-            return false;
+            return Task.FromResult(false);
         }
 
-        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
+        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             var header = Request.Headers["Authorization"].ToString();
             if (string.IsNullOrEmpty(header) || !header.StartsWith("Bearer "))
             {
-                return null;
+                return Task.FromResult(AuthenticateResult.Skip()); 
             }
 
             var user = header.Substring(7);
@@ -36,11 +33,11 @@ namespace MultipleAuthTypes.Middleware
 
             if (principal == null)
             {
-                return AuthenticateResult.Failed("No such user");
+                return Task.FromResult(AuthenticateResult.Fail("No such user"));
             }
 
             var ticket = new AuthenticationTicket(principal, new AuthenticationProperties(), Options.AuthenticationScheme);
-            return AuthenticateResult.Success(ticket);
+            return Task.FromResult(AuthenticateResult.Success(ticket));
         }
     }
 }

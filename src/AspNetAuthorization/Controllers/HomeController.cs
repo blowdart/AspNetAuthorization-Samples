@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Security.Claims;
-using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetAuthorization.Controllers
 {

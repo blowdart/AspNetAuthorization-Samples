@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Authorization.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 using AspNetAuthorization.Models;
 
@@ -11,6 +11,7 @@ namespace AspNetAuthorization.Authorization
 {
     public class AdminAuthorizationHander : AuthorizationHandler<OperationAuthorizationRequirement, Document>
     {
+        
         protected override void Handle(AuthorizationContext context, OperationAuthorizationRequirement requirement, Document resource)
         {
             var isSuperUser = context.User.FindFirst(c => c.Type == "Superuser" && c.Issuer == "urn:idunno.org" && c.Value == "True");
