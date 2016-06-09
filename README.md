@@ -1,4 +1,4 @@
-# ASP.NET v5 Authorization Samples
+# ASP.NET Core Authorization Samples
 
 **Now updated for RC2, makes your authorization 5 times brighter than RC1.**
 
