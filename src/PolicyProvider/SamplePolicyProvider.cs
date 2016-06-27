@@ -26,6 +26,15 @@ namespace PolicyProvider
             _options = options.Value;
         }
 
+        /// <summary>
+        /// Gets the default authorization policy.
+        /// </summary>
+        /// <returns>The default authorization policy.</returns>
+        public Task<AuthorizationPolicy> GetDefaultPolicyAsync()
+        {
+            return Task.FromResult(_options.DefaultPolicy);
+        }
+
         // And this is where the magic happens.
         public Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {

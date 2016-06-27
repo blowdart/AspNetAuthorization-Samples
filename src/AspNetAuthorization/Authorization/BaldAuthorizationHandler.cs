@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace AspNetAuthorization.Authorization
 {
@@ -14,7 +15,7 @@ namespace AspNetAuthorization.Authorization
 
         }
 
-        protected override void Handle(AuthorizationContext context, NoGingersRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, NoGingersRequirement requirement)
         {
             _logger.LogInformation("Checking for baldies.");
 
@@ -24,8 +25,9 @@ namespace AspNetAuthorization.Authorization
             if (hairColour == null)
             {
                 context.Succeed(requirement);
-                return;
             }
+
+            return Task.FromResult(0);
         }
     }
 }    

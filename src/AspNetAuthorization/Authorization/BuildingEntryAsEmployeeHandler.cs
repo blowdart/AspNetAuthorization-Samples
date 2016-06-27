@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AspNetAuthorization.Authorization
 {
@@ -12,7 +13,7 @@ namespace AspNetAuthorization.Authorization
             _employeeRepository = employeeRepository;
         }
 
-        protected override void Handle(AuthorizationContext context, EnterBuildingRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, EnterBuildingRequirement requirement)
         {
             var badgeNumber =
                 context.User.Claims.FirstOrDefault(c => c.Type == ClaimNames.BadgeNumber && 
@@ -22,6 +23,8 @@ namespace AspNetAuthorization.Authorization
             {
                 context.Succeed(requirement);
             }
+
+            return Task.FromResult(0);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace AspNetAuthorization.Authorization
 {
@@ -19,7 +20,7 @@ namespace AspNetAuthorization.Authorization
             _logger = loggerFactory.CreateLogger(this.GetType().FullName);
         }
 
-        protected override void Handle(AuthorizationContext context, NoGingersRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, NoGingersRequirement requirement)
         {
             _logger.LogInformation("Checking for soul free mutants.");
 
@@ -31,8 +32,9 @@ namespace AspNetAuthorization.Authorization
                  string.Compare(hairColour.Value, "ginger", true) != 0))
             {
                 context.Succeed(requirement);
-                return;
             }
+
+            return Task.FromResult(0);
         }
     }
 }

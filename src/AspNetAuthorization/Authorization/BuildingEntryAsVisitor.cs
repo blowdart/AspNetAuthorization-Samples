@@ -8,7 +8,7 @@ namespace AspNetAuthorization.Authorization
 {
     public class BuildingEntryAsVisitor : AuthorizationHandler<EnterBuildingRequirement>
     {
-        protected override void Handle(AuthorizationContext context, EnterBuildingRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, EnterBuildingRequirement requirement)
         {
             var expiryClaim =
                 context.User.Claims.FirstOrDefault(c => c.Type == ClaimNames.VisitorPassExpiry &&
@@ -16,7 +16,7 @@ namespace AspNetAuthorization.Authorization
 
             if (expiryClaim == null)
             {
-                return;
+                return Task.FromResult(0);
             }
 
             DateTime expiryTime;
@@ -28,6 +28,8 @@ namespace AspNetAuthorization.Authorization
                     context.Succeed(requirement);
                 }
             }
+
+            return Task.FromResult(0);
         }
     }
 }

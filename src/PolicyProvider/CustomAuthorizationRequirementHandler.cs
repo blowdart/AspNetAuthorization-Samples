@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace PolicyProvider
 {
     public class CustomAuthorizationRequirementHandler : AuthorizationHandler<CustomAuthorizationRequirement>
     {
-        protected override void Handle(
-            AuthorizationContext context, 
+        protected override Task HandleRequirementAsync(
+            AuthorizationHandlerContext context, 
             CustomAuthorizationRequirement requirement)
         {
             if (context.User != null)
@@ -20,7 +21,9 @@ namespace PolicyProvider
                 {
                     context.Succeed(requirement);
                 }
-            }            
+            }
+
+            return Task.FromResult(0);
         }
     }
 }

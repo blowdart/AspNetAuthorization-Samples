@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace AspNetAuthorization.Authorization
 {
@@ -17,12 +18,14 @@ namespace AspNetAuthorization.Authorization
 
         protected DayOfWeek DayOfWeek { get; set; }
 
-        protected override void Handle(AuthorizationContext context, DayRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, DayRequirement requirement)
         {
             if (DateTime.Now.DayOfWeek == DayOfWeek)
             {
                 context.Succeed(requirement);
             }
+
+            return Task.FromResult(0);
         }
     }
 }
