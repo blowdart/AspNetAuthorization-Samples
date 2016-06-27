@@ -1,6 +1,6 @@
 # ASP.NET Core Authorization Samples
 
-**Now updated for RC2, makes your authorization 5 times brighter than RC1.**
+**Now updated for RTM, async all the handlers!**
 
 This is a sarcastic, opinionated set of samples I used to validate the user requirements we had for asp.net's new policy based authorization. 
 
